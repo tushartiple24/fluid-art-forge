@@ -67,7 +67,7 @@ function LiquidShader({ state }: { state: LiquidState }) {
 
   useFrame((_, delta) => {
     if (!material.current) return;
-    const values = material.current.uniforms;
+    const values = uniforms.current;
     values["uTime"].value += Math.min(delta, 0.05);
     values["uPointer"].value.lerp(new THREE.Vector2(state.pointer[0], state.pointer[1]), 0.06);
     values["uIntensity"].value = THREE.MathUtils.lerp(values["uIntensity"].value, state.intensity, 0.08);
