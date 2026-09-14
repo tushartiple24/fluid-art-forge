@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { Float, MeshTransmissionMaterial } from "@react-three/drei";
+import { Float } from "@react-three/drei";
 import { motion, useInView } from "framer-motion";
 import {
   ArrowDownRight,
@@ -151,25 +151,22 @@ function CoreMark({ active }: { active: boolean }) {
     <Float speed={1.6} rotationIntensity={0.25} floatIntensity={0.35}>
       <group ref={group} rotation={[0.08, 0.2, -0.05]}>
         <mesh ref={core} castShadow>
-          <icosahedronGeometry args={[1.22, 5]} />
-          <MeshTransmissionMaterial
-            backside
-            samples={4}
-            thickness={0.55}
-            roughness={0.1}
-            transmission={0.94}
-            ior={1.5}
-            chromaticAberration={0.08}
+          <icosahedronGeometry args={[0.72, 5]} />
+          <meshPhysicalMaterial
             color={cyan}
-            attenuationColor={acid}
-            attenuationDistance={1.1}
+            metalness={1}
+            roughness={0.1}
+            clearcoat={1}
+            clearcoatRoughness={0.08}
+            emissive={acid}
+            emissiveIntensity={active ? 0.2 : 0.08}
           />
         </mesh>
-        <mesh position={[0, 0.04, 0.02]} scale={[1.8, 0.11, 0.14]}>
+        <mesh position={[0, 0.04, 0.02]} scale={[1.15, 0.08, 0.1]}>
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial color={active ? acid : cyan} toneMapped={false} />
         </mesh>
-        <mesh position={[0, -0.75, 0.02]} rotation={[0, 0, Math.PI]} scale={[0.18, 1, 0.16]}>
+        <mesh position={[0, -0.5, 0.02]} rotation={[0, 0, Math.PI]} scale={[0.12, 0.7, 0.11]}>
           <coneGeometry args={[1, 1.6, 4]} />
           <meshBasicMaterial color={acid} toneMapped={false} />
         </mesh>
@@ -256,7 +253,7 @@ export function LiquidPortfolio() {
   const [coreActive, setCoreActive] = useState(false);
 
   return (
-    <main onMouseMove={(event) => setLiquidState((current) => ({ ...current, pointer: [event.clientX / window.innerWidth, 1 - event.clientY / window.innerHeight] }))} className="relative min-h-screen overflow-hidden bg-obsidian text-foreground">
+    <main onMouseMove={(event) => setLiquidState((current) => ({ ...current, pointer: [event.clientX / window.innerWidth, 1 - event.clientY / window.innerHeight] }))} className="dark relative min-h-screen overflow-hidden bg-obsidian text-foreground">
       <LiquidCanvas state={liquidState} active={coreActive} />
       <nav className="relative z-20 mx-auto flex max-w-7xl items-center justify-between px-6 py-6 md:px-10">
         <a href="#top" className="font-mono text-sm font-medium tracking-[0.2em] text-foreground">TT<span className="text-cyan">.</span></a>
@@ -314,7 +311,7 @@ export function LiquidPortfolio() {
       </section>
 
       <footer id="contact" className="relative z-10 border-t border-line bg-obsidian/80 px-6 pb-8 pt-24 md:px-10 md:pt-36">
-        <div className="mx-auto max-w-7xl"><Reveal><div className="max-w-3xl"><p className="font-mono text-xs text-cyan">03 / OPEN CHANNEL</p><h2 className="mt-5 text-[clamp(3.5rem,10vw,9rem)] font-semibold leading-[0.85] tracking-[-0.07em]">Let's make<br /><span className="text-acid text-glow-acid">something real.</span></h2></div></Reveal><div className="mt-24 flex flex-col justify-between gap-10 border-t border-line pt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:flex-row md:items-end"><div><span className="text-foreground">Tushar Tiple</span><br />Computer Engineering / Research</div><div className="flex items-center gap-4"><a aria-label="GitHub" href="https://github.com" target="_blank" rel="noreferrer" className="text-foreground transition-all hover:scale-110 hover:text-cyan hover:drop-shadow-[0_0_15px_var(--cyan)]"><Github size={19} /></a><a aria-label="LinkedIn" href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-foreground transition-all hover:scale-110 hover:text-cyan hover:drop-shadow-[0_0_15px_var(--cyan)]"><Linkedin size={19} /></a><a aria-label="Email" href="mailto:tushar.tiple@example.com" className="text-foreground transition-all hover:scale-110 hover:text-cyan hover:drop-shadow-[0_0_15px_var(--cyan)]"><Mail size={19} /></a><span className="ml-4 text-acid">System Secured.</span></div></div></div>
+        <div className="mx-auto max-w-7xl"><Reveal><div className="max-w-3xl"><p className="font-mono text-xs text-cyan">03 / OPEN CHANNEL</p><h2 className="mt-5 text-[clamp(3.5rem,10vw,9rem)] font-semibold leading-[0.85] tracking-[-0.07em]">Let's make<br /><span className="text-acid text-glow-acid">something real.</span></h2></div></Reveal><div className="mt-24 flex flex-col justify-between gap-10 border-t border-line pt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:flex-row md:items-end"><div><span className="text-foreground">Tushar Tiple</span><br />Computer Engineering / Research</div><div className="flex items-center gap-4"><a aria-label="GitHub" href="https://github.com" target="_blank" rel="noreferrer" className="text-foreground transition-all hover:scale-110 hover:text-cyan hover:drop-shadow-[0_0_15px_var(--cyan)]"><Github size={19} /></a><a aria-label="GDC" href="https://gdconf.com" target="_blank" rel="noreferrer" className="text-foreground transition-all hover:scale-110 hover:text-cyan hover:drop-shadow-[0_0_15px_var(--cyan)]"><span className="text-[11px] font-semibold tracking-tight">GDC</span></a><a aria-label="Email" href="mailto:tushar.tiple@example.com" className="text-foreground transition-all hover:scale-110 hover:text-cyan hover:drop-shadow-[0_0_15px_var(--cyan)]"><Mail size={19} /></a><span className="ml-4 text-acid">System Secured.</span></div></div></div>
       </footer>
     </main>
   );
