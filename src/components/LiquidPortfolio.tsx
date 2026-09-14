@@ -25,8 +25,8 @@ const acid = "#39ff14";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
-};
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" as const } },
+} as const;
 
 const expertise = [
   {
@@ -68,10 +68,10 @@ function LiquidShader({ state }: { state: LiquidState }) {
   useFrame((_, delta) => {
     if (!material.current) return;
     const values = material.current.uniforms;
-    values.uTime.value += Math.min(delta, 0.05);
-    values.uPointer.value.lerp(new THREE.Vector2(state.pointer[0], state.pointer[1]), 0.06);
-    values.uIntensity.value = THREE.MathUtils.lerp(values.uIntensity.value, state.intensity, 0.08);
-    values.uResolution.value.set(size.width, size.height);
+    values["uTime"].value += Math.min(delta, 0.05);
+    values["uPointer"].value.lerp(new THREE.Vector2(state.pointer[0], state.pointer[1]), 0.06);
+    values["uIntensity"].value = THREE.MathUtils.lerp(values["uIntensity"].value, state.intensity, 0.08);
+    values["uResolution"].value.set(size.width, size.height);
   });
 
   return (
